@@ -1,0 +1,9 @@
+[submodule "deps/libuv/src"]
+	path = deps/libuv/src
+	url = https://github.com/joyent/libuv.git
+[submodule "deps/libcv/src"]
+	path = deps/libcv/src
+	url = https://github.com/Itseez/opencv.git
+[submodule "deps/catch"]
+	path = deps/catch
+	url = https://github.com/philsquared/Catch.git

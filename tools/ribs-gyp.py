@@ -45,6 +45,7 @@ parser.add_option('--target-os',
 #
 # configure: gather options and call gyp accordingly.
 #
+
 def configure():
 	# assemble gyp arguments
 	gyp_args = ['gyp', '--depth=' + root_dir]
@@ -57,6 +58,7 @@ def configure():
 #
 # build: depending of os, calls the correct command to compile.
 #
+
 def build():
 	# invoke make
 	subprocess.call(['make'])
@@ -64,12 +66,14 @@ def build():
 #
 # clean: removes all compiled files.
 #
+
 def clean():
 	shutil.rmtree(os.path.join(root_dir, 'out'))
 
 #
 # distclean: removes all compiled and gyp generated files.
 #
+
 def distclean():
 	clean()
 	for filename in find_files('*.mk'):
@@ -80,6 +84,7 @@ def distclean():
 #
 # rebuild: clean and build.
 #
+
 def rebuild():
 	clean()
 	build()
@@ -101,6 +106,6 @@ def find_files(pattern):
 
 # call the given opeartion
 if args[0] in globals():
-	globals()[args[0]]
+	globals()[args[0]]()
 else:
 	parser.print_help()

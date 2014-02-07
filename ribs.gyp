@@ -2,7 +2,17 @@
     'variables': {
         'target_arch%': 'ia32',
         'library%': 'static_library',
-        'src': 'src'
+        'with_test%': 0
+    },
+
+    'target_defaults': {
+        'conditions': [
+            ['OS=="linux"', {
+                'cflags': [
+                    '-Wall -std=c++11'
+                ]
+            }]
+        ]
     },
 
     'targets': [{
@@ -11,26 +21,41 @@
         'type': '<(library)',
 
         'sources': [
-            '<(src)/error.cc',
-            '<(src)/image.cc',
-            '<(src)/io.cc',
-            '<(src)/math.cc'
+            'src/error.cc',
+            'src/image.cc',
+            'src/io.cc',
+            'src/math.cc'
+        ],
+
+        'include_dirs': [
+            'include'
         ],
 
         'dependencies': [
             'deps/libuv/uv.gyp:libuv',
             'deps/libcv/cv.gyp:libcv'
-        ],
-
-        'conditions': [
-            ['OS=="linux"', {
-#                'libraries': [
-#                    '-luv'
-#                ],
-                'cflags': [
-                    '-Wall -std=c++11'
-                ]
-            }]
         ]
-    }]
+    }],
+
+    'conditions': [
+        ['with_test==1', {
+            'targets': [{
+                'target_name': 'run-tests',
+                'type': 'executable',
+
+                'sources': [
+                    'test/run-tests.cc'
+                ],
+
+                'dependencies': [
+                    'ribs'
+                ],
+
+                'include_dirs': [
+                    'includes',
+                    'deps/catch/include'
+                ]
+            }],
+        }],
+    ]
 }

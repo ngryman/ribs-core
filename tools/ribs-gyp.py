@@ -40,6 +40,11 @@ parser.add_option('--target-os',
 	help='operating system to build for. Valid values are:'
 		'win, mac, solaris, freebsd, openbsd, linux, android')
 
+parser.add_option('--with-test',
+	action='store_true',
+	dest='with_test',
+	help='build tests with the library (default: false)')
+
 (options, args) = parser.parse_args()
 
 #
@@ -51,6 +56,7 @@ def configure():
 	gyp_args = ['gyp', '--depth=' + root_dir]
 	gyp_args.append('-Dlibrary={0}_library'.format(options.library or 'static'))
 	gyp_args.append('-Dtarget_arch={0}'.format(options.target_cpu or 'ia32'))
+	gyp_args.append('-Dwith_test={0}'.format(1 if options.with_test else 0))
 
 	# invoke gyp
 	subprocess.call(gyp_args)
@@ -88,6 +94,13 @@ def distclean():
 def rebuild():
 	clean()
 	build()
+
+#
+# test: runs unit tests.
+#
+
+def test():
+	subprocess.call([os.path.join(root_dir, 'out', 'Default', 'run-tests')])
 
 #
 # misc.

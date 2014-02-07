@@ -4,7 +4,7 @@
  * LGPL Licensed
  */
 
-#include "math.h"
+#include "ribs/math.h"
 
 using namespace ribs;
 

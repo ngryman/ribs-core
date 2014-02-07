@@ -7,7 +7,7 @@
 #ifndef __RIBS_IO_H__
 #define __RIBS_IO_H__
 
-#include "error.h"
+#include "ribs/error.h"
 
 namespace ribs {
 

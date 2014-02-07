@@ -4,7 +4,7 @@
  * LGPL Licensed
  */
 
-#include "error.h"
+#include "ribs/error.h"
 
 using namespace std;
 using namespace ribs;

@@ -4,10 +4,10 @@
  * LGPL Licensed
  */
 
-#include "image.h"
+#include "ribs/image.h"
+#include "ribs/operation.h"
+#include "ribs/math.h"
 #include "io.h"
-#include "operation.h"
-#include "math.h"
 
 using namespace std;
 using namespace cv;

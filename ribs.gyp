@@ -22,9 +22,7 @@
 
         'sources': [
             'src/error.cc',
-            'src/image.cc',
-            'src/io.cc',
-            'src/math.cc'
+            'src/image.cc'
         ],
 
         'include_dirs': [
@@ -32,7 +30,6 @@
         ],
 
         'dependencies': [
-            'deps/libuv/uv.gyp:libuv',
             'deps/libcv/cv.gyp:libcv'
         ]
     }],
@@ -52,7 +49,7 @@
                 ],
 
                 'include_dirs': [
-                    'includes',
+                    'include',
                     'deps/catch/include'
                 ]
             }],

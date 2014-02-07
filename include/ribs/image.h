@@ -11,39 +11,25 @@
 
 namespace ribs {
 
-using ImageCallback = std::function<void(const Error&, Image*)>;
-
 class Image {
 public:
-	inline cv::Mat  Pixels() const { return p; }
-	inline uint32_t Width()  const { return w; }
-	inline uint32_t Height() const { return h; }
-	inline uint32_t Length() const { return Stride() * h; }
-	inline uint32_t Stride() const { return w * 4; }
+	inline uchar* pixels() const { return mat.data; }
+	inline int    width()  const { return mat.cols; }
+	inline int    height() const { return mat.rows; }
+	inline size_t length() const { return mat.total(); }
 
-	void Resize(uint32_t width, uint32_t height, ImageCallback callback);
-	void Resize(uint32_t width, uint32_t height, Origin origin, ImageCallback callback);
-	void Resize(uint32_t width, uint32_t height, uint32_t x, uint32_t y, ImageCallback callback);
+	Image(std::vector<uchar>& buffer);
+	Image(const std::string& filename);
+	virtual ~Image() {}
 
-	void Crop(uint32_t width, uint32_t height, ImageCallback callback);
-	void Crop(uint32_t width, uint32_t height, Origin origin, ImageCallback callback);
-	void Crop(uint32_t width, uint32_t height, uint32_t x, uint32_t y, ImageCallback callback);
+	Image& resize(int width, int height, int x, int y);
+	Image& crop(int width, int height, int x, int y);
+	Image& artDirection(int width, int height, int bw, int bh, int bx, int by);
 
-	void AutoArt(uint32_t width, uint32_t height, uint32_t bw, uint32_t bh, ImageCallback callback);
-	void AutoArt(uint32_t width, uint32_t height, uint32_t bw, uint32_t bh, Origin origin, ImageCallback callback);
-	void AutoArt(uint32_t width, uint32_t height, uint32_t bw, uint32_t bh, uint32_t bx, uint32_t by, ImageCallback callback);
-
-	void Save(const std::string& filename, ImageCallback callback) const;
-
-	static void Open(const std::string& filename, ImageCallback callback);
+	void save(const std::string& filename) const;
 
 private:
-	Image(const cv::Mat& pixels);
-	virtual ~Image();
-
-	cv::Mat  p;
-	uint32_t w;
-	uint32_t h;
+	cv::Mat mat;
 };
 
 }

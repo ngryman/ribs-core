@@ -16,6 +16,7 @@ import sys
 #
 
 root_dir = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
+output_dir =os.path.join(root_dir, 'build')
 
 #
 # options handling
@@ -57,6 +58,11 @@ def configure():
 	gyp_args.append('-Dlibrary={0}_library'.format(options.library or 'static'))
 	gyp_args.append('-Dtarget_arch={0}'.format(options.target_cpu or 'ia32'))
 	gyp_args.append('-Dwith_test={0}'.format(1 if options.with_test else 0))
+	# tell gyp to write the Makefile/Solution files into output_dir
+	gyp_args.append('--generator-output')
+	gyp_args.append(output_dir)
+	# tell make to write its output in the same dir
+	gyp_args.append('-Goutput_dir=.')
 
 	# invoke gyp
 	subprocess.call(gyp_args)
@@ -67,14 +73,14 @@ def configure():
 
 def build():
 	# invoke make
-	subprocess.call(['make'])
+	subprocess.call(['make', '-C', 'build'])
 
 #
 # clean: removes all compiled files.
 #
 
 def clean():
-	shutil.rmtree(os.path.join(root_dir, 'out'))
+	shutil.rmtree(os.path.join(root_dir, 'build'))
 
 #
 # distclean: removes all compiled and gyp generated files.
@@ -100,7 +106,7 @@ def rebuild():
 #
 
 def test():
-	subprocess.call([os.path.join(root_dir, 'out', 'Default', 'run-tests')])
+	subprocess.call([os.path.join(root_dir, 'build', 'Default', 'run-tests')])
 
 #
 # misc.

@@ -5,4 +5,3 @@
  */
 
 #include "ribs/image.h"
-#include "ribs/operation.h"

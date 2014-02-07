@@ -15,12 +15,14 @@ static const string ERROR_MESSAGES[] = {
     "Out of memory",
     "Can't read file",
     "Can't write file",
-    "Invalid image format"
+    "Invalid image format",
+    "Not implemented"
 };
 
-static const Error Success(ErrorType::Success);
-static const Error NoMemory(ErrorType::NoMemory);
-static const Error InvalidFormat(ErrorType::InvalidFormat);
+const Error Error::Success(ErrorType::Success);
+const Error Error::NoMemory(ErrorType::NoMemory);
+const Error Error::InvalidFormat(ErrorType::InvalidFormat);
+const Error Error::NotImplemented(ErrorType::NotImplemented);
 
 Error::Error(ErrorType type) {
 	m = ERROR_MESSAGES[static_cast<int>(type)];

@@ -18,7 +18,8 @@ enum class ErrorType {
 	NoMemory,
 	FileRead,
 	FileWrite,
-	InvalidFormat
+	InvalidFormat,
+	NotImplemented
 };
 
 class Error {
@@ -32,6 +33,7 @@ public:
 	static const Error Success;
 	static const Error NoMemory;
 	static const Error InvalidFormat;
+	static const Error NotImplemented;
 
 private:
 	ErrorType   t;

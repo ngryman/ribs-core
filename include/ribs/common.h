@@ -12,8 +12,6 @@
 #include <string>
 #include <vector>
 
-#include "config.h"
-
 #include <opencv/cv.h>
 
 namespace ribs {

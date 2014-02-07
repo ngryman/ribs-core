@@ -5,68 +5,39 @@
  */
 
 #include "ribs/image.h"
-#include "ribs/operation.h"
-#include "ribs/math.h"
-#include "io.h"
+#include "ribs/error.h"
+#include <opencv/highgui.h>
 
+using namespace ribs;
 using namespace std;
 using namespace cv;
-using namespace ribs;
 
-Image::Image(const Mat& pixels) :
-    p(pixels),
-	w(0),
-	h(0) {
+Image::Image(vector<uchar>& buffer) {
+	mat = imdecode(buffer, CV_LOAD_IMAGE_COLOR);
 }
 
-Image::~Image() {
-//	if (p) delete[] p;
-}
-
-void Image::Open(const string& filename, ImageCallback callback) {
-	if (!callback) return;
-
+Image::Image(const string& filename) {
 	if (filename.empty()) {
-		callback(Error(ErrorType::InvalidArgument), NULL);
-
+		throw Error(ErrorType::InvalidArgument, "filename");
 	}
 
-	IO::Read(filename, [callback](const Error& error, Mat* pixels) {
-	    if (ErrorType::Success == error.type()) {
-	        callback(error, new Image(*pixels));
-	    }
-	    else {
-	        callback(error, NULL);
-	    }
-	});
+	mat = imread(filename.c_str(), CV_LOAD_IMAGE_COLOR);
+	if (!mat.data) {
+		throw Error(ErrorType::FileRead, filename);
+	}
 }
 
-void Image::Resize(uint32_t width, uint32_t height, ImageCallback callback) {
-	Resize(width, height, Origin::Center, callback);
+Image& Image::resize(int width, int height, int x, int y) {
+	throw Error::NotImplemented;
+	return *this;
 }
 
-void Image::Resize(uint32_t width, uint32_t height, Origin origin, ImageCallback callback) {
-	uint32_t x, y;
-	Math::coordinates(origin, w, h, &x, &y);
-
-	Resize(width, height, x, y, callback);
+Image& Image::crop(int width, int height, int x, int y) {
+	throw Error::NotImplemented;
+	return *this;
 }
 
-void Image::Resize(uint32_t width, uint32_t height, uint32_t x, uint32_t y, ImageCallback callback) {
-	Operation::Resize(this, width, height, x, y, callback);
-}
-
-void Image::Crop(uint32_t width, uint32_t height, ImageCallback callback) {
-	Crop(width, height, Origin::Center, callback);
-}
-
-void Image::Crop(uint32_t width, uint32_t height, Origin origin, ImageCallback callback) {
-	uint32_t x, y;
-	Math::coordinates(origin, w, h, &x, &y);
-
-	Crop(width, height, x, y, callback);
-}
-
-void Image::Crop(uint32_t width, uint32_t height, uint32_t x, uint32_t y, ImageCallback callback) {
-	Operation::Crop(this, width, height, x, y, callback);
+Image& Image::artDirection(int width, int height, int bw, int bh, int bx, int by) {
+	throw Error::NotImplemented;
+	return *this;
 }
